@@ -25,7 +25,7 @@ metadata:
 spec:
   type: LoadBalancer  # Para acesso externo; use ClusterIP para acesso interno
   ports:
-  - port: 80
+  - port: 9000
     targetPort: 80
     protocol: TCP
   selector:
