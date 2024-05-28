@@ -1,0 +1,69 @@
+repositories:
+ - name: prometheus-community
+   url: https://prometheus-community.github.io/helm-charts
+ - name: bitnami
+   url: https://charts.bitnami.com/bitnami
+ - name: jetstack
+   url: https://charts.jetstack.io
+ - name: lgtm
+   url: https://grafana.github.io/helm-charts
+ - name: java-app
+   url: https://emerson89.github.io/helm-charts
+ - name: argo
+   url: https://argoproj.github.io/argo-helm
+
+releases:
+- name: argo
+  namespace: argo-cd
+  createNamespace: true
+  chart: argo/argo-cd
+  values:
+    - values-apps/argocd-values.yaml
+
+- name: prometheus
+  namespace: monitoring
+  createNamespace: true
+  chart: prometheus-community/kube-prometheus-stack
+  # values:
+  #   - prom/values-prom.yaml
+
+- name: minio
+  chart: bitnami/minio
+  namespace: minio
+  createNamespace: true
+  # values:
+  #   - minio/minio.yaml
+
+- name: cert-manager
+  chart: jetstack/cert-manager
+  createNamespace: true
+  version: v1.13.2
+  namespace: cert-manager
+  set:
+   - name: installCRDs
+     value: true
+
+- name: java-app
+  namespace: java-app
+  createNamespace: true
+  chart: java-app/tpl
+  # values:
+  #   - app-java/values-java.yaml
+
+- name: loki
+  namespace: monitoring
+  chart: grafana/loki-distributed
+  # values:
+  #   - loki/loki.yaml
+
+- name: promtailku
+  namespace: monitoring
+  chart: grafana/promtail
+  # values:
+  #   - promtail/promtail.yaml    
+
+- name: tempo
+  namespace: monitoring
+  chart: grafana/tempo-distributed
+  # values:
+  #   - tempo/tempo.yaml
