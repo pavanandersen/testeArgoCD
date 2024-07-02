@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  notifications: |
+    triggers:
+      - name: on-rollback
+        when: app.status.operation.completed
+        condition: app.operation.sync.result.reason == 'rollback'
+        template: rollback-notification
+    templates:
+      - name: rollback-notification
+        webhook:
+          url: "https://1p.elven.works.com/webhook-endpoint"
+          method: POST
+          body: |
+            {
+              "application": "{{.app.metadata.name}}",
+              "status": "{{.app.status.operationState.phase}}",
+              "operation": "rollback",
+              "timestamp": "{{.app.status.operationState.finishedAt}}"
+            }
