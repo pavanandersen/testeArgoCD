@@ -3,7 +3,24 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
   namespace: argocd
+  annotations:
+    meta.helm.sh/release-name: argocd
+    meta.helm.sh/release-namespace: argocd
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+    app.kubernetes.io/version: v2.10.4
+    helm.sh/chart: argo-cd-6.7.3
 data:
+  admin.enabled: "true"
+  application.instanceLabelKey: argocd.argoproj.io/instance
+  exec.enabled: "false"
+  server.rbac.log.enforce.enable: "false"
+  timeout.hard.reconciliation: 0s
+  timeout.reconciliation: 180s
   notifications: |
     triggers:
       - name: on-rollback
@@ -23,4 +40,4 @@ data:
               "description": "< Description >",
               "version": "< Version >",
               "type": "rollback"
-            }
+            }'
