@@ -8,3 +8,13 @@ curl --request POST \
         "version": "< Version >",
         "type": "rollback"
       }'
+
+
+curl --request POST \
+      --url https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS \
+      --data '{
+        "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",
+        "description": "< Description >",
+        "version": "< Version >",
+        "type": "rollback"
+      }'

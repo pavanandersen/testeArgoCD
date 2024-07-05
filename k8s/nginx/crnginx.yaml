@@ -23,9 +23,9 @@ kind: Service
 metadata:
   name: nginx-service
 spec:
-  type: LoadBalancer  # Para acesso externo; use ClusterIP para acesso interno
+  type: ClusterIP  # Para acesso externo; use ClusterIP para acesso interno
   ports:
-  - port: 9000
+  - port: 80
     targetPort: 80
     protocol: TCP
   selector:
