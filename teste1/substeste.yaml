@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: appargo
+  namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-rollback.form: "meu"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pavanandersen/testeArgoCD
+    targetRevision: main
+    path: k8s/nginx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default

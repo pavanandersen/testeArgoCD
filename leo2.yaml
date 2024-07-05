@@ -4,15 +4,20 @@ metadata:
   name: argocd-notifications-cm
   namespace: argo-cd
 data:
-    trigger.sync-operation-change: |
+  notifications: |
+    triggers:
       - name: on-rollback
         when: app.status.operationState.phase in ['Succeeded']
         template: rollback-notification
-    template.form-data: |
-      webhook:
-        form:
-          method: POST
+          
+      # - name: on-rollback
+      #   when: app.status.operation.completed
+      #   condition: app.operation.sync.result.reason == 'rollback'
+      #   template: rollback-notification
+    template.rollback-notification:
+      - webhook:
           url: "https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS"
+          method: POST
           body: |
             {
               "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",

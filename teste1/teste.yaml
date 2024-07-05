@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argo-cd
+data:
+  subscriptions: |
+    on-sync-rollback:
+      - webhook:rollback-webhook
+  templates: |
+    - name: rollback-template
+      webhook:
+        method: POST
+        url: https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
+        headers:
+          Content-Type: application/json
+          User-Agent: 1PwebhookDeliveries/1.0
+        body: |
+          {
+            "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",
+            "description": "{{app.metadata.name}} rollback detected",
+            "version": "{{app.status.sync.revision}}",
+            "type": "rollback"
+          }
+  triggers: |
+    - name: on-sync-rollback
+      enabled: true
+      condition: app.status.operationState.phase == 'Failed' && app.status.operationState.message contains 'rollback'
+      template: rollback-template
+  webhooks: |
+    - name: rollback-webhook
+      url: https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
+      headers:
+        Content-Type: application/json
+        User-Agent: 1PwebhookDeliveries/1.0
