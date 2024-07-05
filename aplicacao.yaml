@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-rolback.rollback-notification: ""
+  name: my-app
+  namespace: argo-cd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/pavanandersen/testeArgoCD'
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: frituras
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

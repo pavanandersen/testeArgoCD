@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-application
+  namespace: argo-cd
+  annotations:
+    notifications.argoproj.io/subscribe.rollback.elven-works: ""
+    description: "My application description"
+    version: "1.0.0"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/my-repo/my-app.git'
+    targetRevision: HEAD
+    path: 'path/to/application'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: my-app-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

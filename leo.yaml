@@ -16,11 +16,14 @@ data:
           url: "https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS"
           method: POST
           body: |
-            --header 'Content-Type: application/json' \
-            --header 'User-Agent: 1PwebhookDeliveries/1.0' \
-            --data '{
+            {
               "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",
-              "description": "< Description >",
-              "version": "< Version >",
+              "description": "Rollback",
+              "version": "{{.app.spec.source.targetRevision}}",
               "type": "rollback"
             }
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: User-Agent
+              value: 1PwebhookDeliveries/1.0

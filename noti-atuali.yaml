@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argo-cd
+data:
+  service.webhook.elven-works: |
+    url: https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: User-Agent
+      value: 1PwebhookDeliveries/1.0
+
+  template.elven-works-rollback: |
+    webhook:
+      elven-works:
+        method: POST
+        body: |
+          {
+            "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",
+            "description": "{{ .app.metadata.annotations.description }}",
+            "version": "{{ .app.metadata.annotations.version }}",
+            "type": "rollback"
+          }
