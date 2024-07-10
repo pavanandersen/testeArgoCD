@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  service.webhook.rollback: |
+    url: https://apis.elven.works/external/v2/delivery/cf24d7f6-7fcf-4172-842c-cb3ad04d2eeb?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.rollback-notification: |
+    webhook:
+      rollback:
+        method: POST
+        body: |
+          {
+            "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",
+            "description": "{{.app.metadata.name}} teste certo",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.on-rollback: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [rollback-notification]
+ 
+# Testando o comportamento de dois services no mesmo doc, para depois diferencia-los no acionamento do appArgo
+  service.webhook.rollbackt: |
+    url: https://apis.elven.works/external/v2/delivery/cf24d7f6-7fcf-4172-842c-cb3ad04d2eeb?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.rollback-notificationt: |
+    webhook:
+      rollbackt:
+        method: POST
+        body: |
+          {
+            "organization": "461b4831-1728-4b8c-8983-c7baccc2a544",
+            "description": "{{.app.metadata.name}} teste2",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.on-rollbackt: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [rollback-notificationt]
+ 

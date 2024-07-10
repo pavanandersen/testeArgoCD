@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  trigger.on-rollback: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [rollback-notification]
+ 
