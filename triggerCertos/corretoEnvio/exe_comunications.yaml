@@ -32,7 +32,7 @@ data:
  
 # Testando o comportamento de dois services no mesmo doc, para depois diferencia-los no acionamento do appArgo
   service.webhook.rollbackt: |
-    url: https://apis.elven.works/external/v2/delivery/cf24d7f6-7fcf-4172-842c-cb3ad04d2eeb?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
+    url: https://apis.elven.works/external/v2/delivery/ea9763ba-74ef-468a-9cb2-5c3400a5696e?token=CUQwqqg3eVmQyjHXmihUILrKgT7rYSwS
     headers:
       - name: Content-Type
         value: application/json

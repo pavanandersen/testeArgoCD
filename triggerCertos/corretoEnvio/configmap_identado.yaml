@@ -1,0 +1,56 @@
+####
+# Script model to set up notification configurations in ArgoCD for automatically registering rollbacks in 1P.
+####### ConfigMap: argocd-notifications-cm #######
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+
+####### API #######
+# Insert a unique name to identify this vareables
+  service.webhook.<name-service.webhook>: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.<name-template>: |
+    webhook:
+      <name-service.webhook>:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.<trigger-name>: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [<name-template>]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.<trigger-name>.<name-service.webhook>: ""
+
+
+# analytics-financial-cubejs f-
+# api-analytics-cubejs f-
+# api-authentication f-
+# api-checklist-dotnet f-
+# api-expansion-dotnet f-
+# api-learning f-
+# api-management-dotnet f-
+# api-marketing-dotnet f-
+# api-marketing-materials-dotnet f-
+# api-orbita-nodejs f-
+# api-taskmanager-dotnet f-
+# api-trade-dotnet f-
+# webapp-processes f-

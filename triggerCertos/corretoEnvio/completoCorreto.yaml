@@ -1,0 +1,439 @@
+####
+# Script model to set up notification configurations in ArgoCD for automatically registering rollbacks in 1P.
+####### analytics-financial-cubejs #######
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+
+
+####### analytics-financial-cubejs #######
+# Insert a unique name to identify this vareables
+  service.webhook.analytics-financial-cubejs: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-financial: |
+    webhook:
+      analytics-financial-cubejs:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.fin: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-financial]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.fin.analytics-financial-cubejs: ""
+
+
+####### api-analytics-cubejs #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-analytics-cubejs: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-analytics-cubejs: |
+    webhook:
+      api-analytics-cubejs:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.analy: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-analytics-cubejs]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.analy.api-analytics-cubejs: ""
+
+
+####### api-authentication #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-authentication: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-authentication: |
+    webhook:
+      api-authentication:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.auth: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-authentication]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.auth.api-authentication: ""
+
+
+####### api-checklist-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-checklist-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-checklist-dotnet: |
+    webhook:
+      api-checklist-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.check: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-checklist-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.check.api-checklist-dotnet: ""
+
+
+####### api-expansion-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-expansion-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-expansion-dotnet: |
+    webhook:
+      api-expansion-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.exp: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-expansion-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.exp.api-expansion-dotnet: ""
+
+
+####### api-learning #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-learning: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-learning: |
+    webhook:
+      api-learning:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.learning: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-learning]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.learning.api-learning: ""
+
+
+####### api-management-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-management-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-management-dotnet: |
+    webhook:
+      api-management-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.manag: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-management-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.manag.api-management-dotnet: ""
+
+
+####### api-marketing-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-marketing-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-marketing-dotnet: |
+    webhook:
+      api-marketing-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.market: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-marketing-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.market.api-marketing-dotnet: ""
+
+
+####### api-marketing-materials-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-marketing-materials-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-marketing-materials-dotnet: |
+    webhook:
+      api-marketing-materials-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.mat: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-marketing-materials-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.mat.api-marketing-materials-dotnet: ""
+
+
+####### api-orbita-nodejs #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-orbita-nodejs: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-orbita-nodejs: |
+    webhook:
+      api-orbita-nodejs:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.orb: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-orbita-nodejs]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.orb.api-orbita-nodejs: ""
+
+
+####### api-taskmanager-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-taskmanager-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-taskmanager-dotnet: |
+    webhook:
+      api-taskmanager-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.task: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-taskmanager-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.task.api-taskmanager-dotnet: ""
+
+
+####### api-trade-dotnet #######
+# Insert a unique name to identify this vareables
+  service.webhook.api-trade-dotnet: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-api-trade-dotnet: |
+    webhook:
+      api-trade-dotnet:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.trade: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-api-trade-dotnet]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.trade.api-trade-dotnet: ""
+
+
+####### webapp-processes #######
+# Insert a unique name to identify this vareables
+  service.webhook.webapp-processes: |
+    url: <URL-present-in-the-webhook-1P>
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: 1PwebhookDeliveries/1.0
+
+  template.temp-webapp-processes: |
+    webhook:
+      webapp-processes:
+        method: POST
+        body: |
+          {
+            "organization": "<ORG-code-present-in-the-webhook-1P>",
+            "description": "{{.app.metadata.name}} Rollback efetuado.",
+            "version": "{{.app.status.sync.revision}}",
+            "type": "rollback"
+          }
+
+  trigger.web: |
+    - when: |
+        app.status.operationState.phase in ['Succeeded'] and
+        app.status.operationState.syncResult.revision != app.status.sync.revision
+      send: [temp-webapp-processes]
+ 
+# Add the following two lines to the Application script document after the 'namespace':
+#  annotations:
+#    notifications.argoproj.io/subscribe.web.webapp-processes: ""
+
